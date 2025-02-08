@@ -21,19 +21,19 @@ contract FundMeTest is Test {
     }
 
     function testMinimumDollarIsFive() public view {
-        assertEq(fundMe.MINIMUM_USD(), MINIMUM_USD);  
+        assertEq(fundMe.MINIMUM_USD(), MINIMUM_USD);
     }
 
     function testOwnerIsMsgSender() public view {
         assertEq(fundMe.getOwner(), msg.sender);
     }
 
-    function testGetVersion() public view{
+    function testGetVersion() public view {
         uint256 version = fundMe.getVersion();
         assertEq(version, VERSION);
     }
 
-    function testFundFailWithoutEnoughEth() public{
+    function testFundFailWithoutEnoughEth() public {
         vm.expectRevert();
         fundMe.fund();
     }
@@ -45,7 +45,7 @@ contract FundMeTest is Test {
     }
 
     function testFundUpdateFundedDataStructure() public funded {
-        assertEq(fundMe.getAddressToAmountFunded(USER), SEND_VALUE);  
+        assertEq(fundMe.getAddressToAmountFunded(USER), SEND_VALUE);
     }
 
     function testFunderSetToArrayOfFunders() public funded {
@@ -58,7 +58,8 @@ contract FundMeTest is Test {
         fundMe.withdraw();
     }
 
-    function testWithdraw() public funded { //modified
+    function testWithdraw() public funded {
+        //modified
         address owner = fundMe.getOwner();
         vm.prank(owner);
         fundMe.withdraw();
@@ -79,10 +80,10 @@ contract FundMeTest is Test {
         assertEq(finalOwnerBalance, initialOwnerBalance + initialFundMeBalance);
     }
 
-    function testWithdrawFromMultipleFunders() public funded { 
+    function testWithdrawFromMultipleFunders() public funded {
         uint160 noOfFunders = 5;
         uint160 startingFunderIndex = 1;
-        for(uint160 i = startingFunderIndex; i < noOfFunders; i++) {
+        for (uint160 i = startingFunderIndex; i < noOfFunders; i++) {
             hoax(address(i), SEND_VALUE);
             fundMe.fund{value: SEND_VALUE}();
         }
@@ -96,5 +97,4 @@ contract FundMeTest is Test {
         assertEq(address(fundMe).balance, 0);
         assertEq(initialOwnerBalance + initialFundMeBalance, fundMe.getOwner().balance);
     }
-
 }

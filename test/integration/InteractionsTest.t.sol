@@ -24,7 +24,7 @@ contract InteractionsTest is Test {
     function testUserCanFund() public {
         FundFundMe fundFundMe = new FundFundMe();
         fundFundMe.fundFundMe(address(fundMe));
-        
+
         assertEq(address(fundMe).balance, 0.01 ether);
     }
 
@@ -34,7 +34,7 @@ contract InteractionsTest is Test {
 
         WithdrawFundMe withdrawFundMe = new WithdrawFundMe();
         withdrawFundMe.withdrawFundMe(address(fundMe));
-        
+
         assertEq(address(fundMe).balance, 0);
     }
 }
